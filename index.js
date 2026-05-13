@@ -48,6 +48,25 @@ mongoose.connect('mongodb://localhost:27017/student-mgmt-sys', {
             console.log(`Auto-seeded Department: ${d.dname}`);
         }
     }
+
+    // Auto-seed Courses (Branch / Specializations)
+    const { Course } = require('./models/course');
+    const courses = [
+        { departmentName: 'Computer Science & Engineering', courseName: 'Artificial Intelligence', courseDuration: 4, startDate: 'January 1st 2026', endDate: 'December 31st 2029', courseFee: 100000, intake: 60 },
+        { departmentName: 'Computer Science & Engineering', courseName: 'Software Engineering', courseDuration: 4, startDate: 'January 1st 2026', endDate: 'December 31st 2029', courseFee: 100000, intake: 60 },
+        { departmentName: 'Information Technology', courseName: 'Cyber Security', courseDuration: 4, startDate: 'January 1st 2026', endDate: 'December 31st 2029', courseFee: 90000, intake: 60 },
+        { departmentName: 'Mechanical Engineering', courseName: 'Automobile Engineering', courseDuration: 4, startDate: 'January 1st 2026', endDate: 'December 31st 2029', courseFee: 85000, intake: 60 },
+        { departmentName: 'BBA / MBA', courseName: 'Finance', courseDuration: 2, startDate: 'January 1st 2026', endDate: 'December 31st 2027', courseFee: 150000, intake: 120 },
+        { departmentName: 'BBA / MBA', courseName: 'Marketing', courseDuration: 2, startDate: 'January 1st 2026', endDate: 'December 31st 2027', courseFee: 150000, intake: 120 }
+    ];
+
+    for (let c of courses) {
+        const exists = await Course.findOne({ courseName: c.courseName, departmentName: c.departmentName });
+        if (!exists) {
+            await new Course(c).save();
+            console.log(`Auto-seeded Course: ${c.courseName}`);
+        }
+    }
 }).catch(err => console.error('Error occured connecting to MongoDB...', err));
 
 
