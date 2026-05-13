@@ -27,7 +27,28 @@ require('./config/passport')(passport);
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/student-mgmt-sys', {
     useNewUrlParser: true
-}).then(() => console.log('Connected to MongoDB Server...')).catch(err => console.error('Error occured connecting to MongoDB...', err));
+}).then(async () => {
+    console.log('Connected to MongoDB Server...');
+    
+    // Auto-seed Departments
+    const { Department } = require('./models/department');
+    const depts = [
+        { dname: 'Computer Science & Engineering' },
+        { dname: 'Information Technology' },
+        { dname: 'Electronics & Communication' },
+        { dname: 'Mechanical Engineering' },
+        { dname: 'Civil Engineering' },
+        { dname: 'BCA / MCA' },
+        { dname: 'BBA / MBA' }
+    ];
+    for (let d of depts) {
+        const exists = await Department.findOne({ dname: d.dname });
+        if (!exists) {
+            await new Department(d).save();
+            console.log(`Auto-seeded Department: ${d.dname}`);
+        }
+    }
+}).catch(err => console.error('Error occured connecting to MongoDB...', err));
 
 
 
