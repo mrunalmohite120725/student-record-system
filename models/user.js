@@ -21,24 +21,24 @@ const userSchema = new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
-        default: false
+        default: true
     },
     privileges: {
         read: {
             type: Boolean,
-            default: false
+            default: true
         },
         create: {
             type: Boolean,
-            default: false
+            default: true
         },
         update: {
             type: Boolean,
-            default: false
+            default: true
         },
         delete: {
             type: Boolean,
-            default: false
+            default: true
         }
     },
     created: {
