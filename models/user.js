@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
     },
     request: {
         type: Boolean,
-        default: false
+        default: true
     }
 });
 
